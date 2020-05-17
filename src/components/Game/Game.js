@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 
 import PageContainer from "../PageContainer/PageContainer";
 import Round from "../Round/Round";
@@ -15,7 +14,7 @@ const DEFAULT_GAME_STATE = {
 const Game = ({ gameData }) => {
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const [gameResults, setGameResults] = useState(DEFAULT_GAME_STATE);
-  const [soundsPlayed, setRoundsPlayed] = useState(0);
+  const [roundsPlayed, setRoundsPlayed] = useState(0);
 
   const resetGame = () => {
     setGameResults(DEFAULT_GAME_STATE);
@@ -29,7 +28,19 @@ const Game = ({ gameData }) => {
       {hasGameStarted ? (
         <>
           <Scoreboard wins={gameResults.wins} losses={gameResults.losses} />
-          <Round player1={player1} player2={player2} />
+          <Round
+            player1={player1}
+            player2={player2}
+            nextButton={
+              roundsPlayed < 10 ? (
+                <BlockButton onClick={resetGame}>
+                  Game complete! Play again?
+                </BlockButton>
+              ) : (
+                <BlockButton onClick={resetGame}>Next round</BlockButton>
+              )
+            }
+          />
         </>
       ) : (
         <BlockButton

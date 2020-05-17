@@ -21,6 +21,7 @@ The requirements for this project leaves a number of unknowns, so I have used my
 
 ## Possible improvements
 
+- Improve accessibility by reviewing accessibility of all screens using a tool such as aXe, and testing using a screenreader
 - Unit test coverage could be improved
 - End to end tests could be added using a tool like Cypress
 - Visual regression tests could be added using a tool such as Applitools or Chromatic
