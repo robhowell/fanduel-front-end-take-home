@@ -37,9 +37,10 @@ describe("Player component", () => {
       expect(injuryWrapper.exists()).toBe(false);
     });
 
-    it("does not render fppg if showFppg is not specified", () => {
+    it("does not show fppg value if showFppg is not specified", () => {
       const fppgWrapper = wrapper.find('[data-qa="player-fppg"]');
-      expect(fppgWrapper.exists()).toBe(false);
+      expect(fppgWrapper.exists()).toBe(true);
+      expect(fppgWrapper.text()).toBe(`FPPG: ?`);
     });
   });
 
@@ -56,7 +57,7 @@ describe("Player component", () => {
   describe("showing FPPG", () => {
     const wrapper = shallow(<Player {...mockProps} showFppg />);
 
-    it("renders FPPG", () => {
+    it("shows FPPG value", () => {
       const fppgWrapper = wrapper.find('[data-qa="player-fppg"]');
       expect(fppgWrapper.exists()).toBe(true);
       expect(fppgWrapper.text()).toBe(`FPPG: ${mockProps.fppg}`);

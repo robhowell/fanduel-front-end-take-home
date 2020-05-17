@@ -10,14 +10,17 @@ const StyledPlayer = styled.div`
       isSelected ? "hsl(201, 85%, 30%)" : "hsl(201, 85%, 90%)"};
   display: flex;
   flex-direction: column;
+  font-family: system-ui, "Segoe UI", "Roboto", sans-serif;
   justify-content: space-between;
   max-width: 200px;
-  transition: all 200ms ease-in-out;
+  transition: all 75ms ease-in-out;
 
   &:hover {
-    border-color: ${({ isSelected }) =>
-      isSelected ? "hsl(201, 85%, 30%)" : "hsl(201, 85%, 60%)"};
-    cursor: pointer;
+    @media (hover: hover) {
+      border-color: ${({ isSelected }) =>
+        isSelected ? "hsl(201, 85%, 30%)" : "hsl(201, 85%, 60%)"};
+      cursor: pointer;
+    }
   }
 `;
 
@@ -25,12 +28,23 @@ const PlayerName = styled.h3`
   color: hsl(201, 85%, 37%);
   font-size: 1.2rem;
   margin-bottom: 5px;
+  padding: 0 5px;
   text-align: center;
 `;
 
 const PlayerStat = styled.div`
   color: hsl(201, 85%, 37%);
   font-size: 1rem;
+  padding: 0 5px;
+  text-align: center;
+`;
+
+const PlayerFPPG = styled.div`
+  color: hsl(201, 85%, 30%);
+  font-size: 0.6rem;
+  font-weight: bold;
+  margin-top: 5px;
+  padding: 0 5px;
   text-align: center;
 `;
 
@@ -56,16 +70,18 @@ const Player = ({
   salary,
   showFppg,
 }) => (
-  <StyledPlayer isSelected={isSelected}>
+  <StyledPlayer isSelected={isSelected} onClick={onClick}>
     <div>
       <PlayerName data-qa="player-name">{name}</PlayerName>
       <PlayerStat data-qa="player-salary">Salary: ${salary}</PlayerStat>
+
       {!!injury && (
         <PlayerStat data-qa="player-injury">Injury: {injury}</PlayerStat>
       )}
-      {!!showFppg && (
-        <PlayerStat data-qa="player-fppg">FPPG: {fppg}</PlayerStat>
-      )}
+
+      <PlayerFPPG data-qa="player-fppg">
+        FPPG: {!!showFppg ? fppg : "?"}
+      </PlayerFPPG>
     </div>
 
     <PhotoWrapper>

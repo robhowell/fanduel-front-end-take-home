@@ -7,6 +7,6 @@ export default {
   component: BlockButton,
 };
 
-export const withText = () => (
+export const basicButton = () => (
   <BlockButton onClick={action("clicked")}>Basic button</BlockButton>
 );

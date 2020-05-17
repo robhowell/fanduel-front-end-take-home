@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const StyledScoreboard = styled.div`
   display: flex;
+  font-family: system-ui, "Segoe UI", "Roboto", sans-serif;
   height: 60px;
   left: 0;
   position: fixed;
