@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import sampleSize from "lodash.samplesize";
 
 import PageContainer from "../PageContainer/PageContainer";
 import Round from "../Round/Round";
@@ -14,30 +15,49 @@ const DEFAULT_GAME_STATE = {
 const Game = ({ gameData }) => {
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const [gameResults, setGameResults] = useState(DEFAULT_GAME_STATE);
-  const [roundsPlayed, setRoundsPlayed] = useState(0);
+  const [currentPlayers, setCurrentPlayers] = useState(null);
+
+  useEffect(() => {
+    setCurrentPlayers(sampleSize(gameData.players, 2));
+  }, [gameData.players]);
 
   const resetGame = () => {
     setGameResults(DEFAULT_GAME_STATE);
-    setRoundsPlayed(0);
+    setCurrentPlayers(sampleSize(gameData.players, 2));
   };
-
-  const [player1, player2] = gameData.players;
 
   return (
     <PageContainer>
       {hasGameStarted ? (
         <>
           <Scoreboard wins={gameResults.wins} losses={gameResults.losses} />
+
           <Round
-            player1={player1}
-            player2={player2}
+            player1={currentPlayers[0]}
+            player2={currentPlayers[1]}
+            onRoundComplete={result => {
+              setGameResults({
+                wins:
+                  result === "win" ? gameResults.wins + 1 : gameResults.wins,
+                losses:
+                  result === "win"
+                    ? gameResults.losses
+                    : gameResults.losses + 1,
+              });
+            }}
             nextButton={
-              roundsPlayed < 10 ? (
+              gameResults.wins < 10 ? (
+                <BlockButton
+                  onClick={() => {
+                    setCurrentPlayers(sampleSize(gameData.players, 2));
+                  }}
+                >
+                  Next round
+                </BlockButton>
+              ) : (
                 <BlockButton onClick={resetGame}>
                   Game complete! Play again?
                 </BlockButton>
-              ) : (
-                <BlockButton onClick={resetGame}>Next round</BlockButton>
               )
             }
           />

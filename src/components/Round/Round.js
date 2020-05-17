@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Player from "../Player/Player";
-import BlockButton from "../BlockButton/BlockButton";
 
 const Players = styled.div`
   display: flex;
@@ -34,19 +33,27 @@ const LossMessage = styled(ResultMessage)`
   background-color: #eeb4b4;
 `;
 
-const Round = ({ player1, player2, onRoundComplete }) => {
+const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+
+  useEffect(() => {
+    setSelectedPlayer(null);
+  }, [player1, player2]);
+
   const playerWithHighestFppg = player1.fppg > player2.fppg ? 1 : 2;
+
+  const guessPlayer = player => {
+    if (selectedPlayer === null) {
+      setSelectedPlayer(player);
+      onRoundComplete(player === playerWithHighestFppg ? "win" : "loss");
+    }
+  };
 
   return (
     <div>
       <Players>
         <Player
-          onClick={() => {
-            if (selectedPlayer === null) {
-              setSelectedPlayer(1);
-            }
-          }}
+          onClick={() => guessPlayer(1)}
           name={`${player1.first_name} ${player1.last_name}`}
           photo={player1.images.default.url}
           salary={player1.salary}
@@ -57,11 +64,7 @@ const Round = ({ player1, player2, onRoundComplete }) => {
         />
 
         <Player
-          onClick={() => {
-            if (selectedPlayer === null) {
-              setSelectedPlayer(2);
-            }
-          }}
+          onClick={() => guessPlayer(2)}
           name={`${player2.first_name} ${player2.last_name}`}
           photo={player2.images.default.url}
           salary={player2.salary}
@@ -80,15 +83,7 @@ const Round = ({ player1, player2, onRoundComplete }) => {
         <LossMessage>Sorry, you were wrong!</LossMessage>
       )}
 
-      {selectedPlayer !== null && (
-        <BlockButton
-          onClick={() => {
-            onRoundComplete("win");
-          }}
-        >
-          Next round
-        </BlockButton>
-      )}
+      {selectedPlayer !== null && nextButton}
     </div>
   );
 };
