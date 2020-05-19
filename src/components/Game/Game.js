@@ -26,6 +26,31 @@ const Game = ({ gameData }) => {
     setCurrentPlayers(sampleSize(gameData.players, 2));
   };
 
+  const onRoundComplete = result => {
+    const wins = result === "win" ? gameResults.wins + 1 : gameResults.wins;
+
+    const losses =
+      result === "win" ? gameResults.losses : gameResults.losses + 1;
+
+    setGameResults({
+      wins,
+      losses,
+    });
+  };
+
+  const nextButton =
+    gameResults.wins < 10 ? (
+      <BlockButton
+        onClick={() => {
+          setCurrentPlayers(sampleSize(gameData.players, 2));
+        }}
+      >
+        Next round
+      </BlockButton>
+    ) : (
+      <BlockButton onClick={resetGame}>Game complete! Play again?</BlockButton>
+    );
+
   return (
     <PageContainer>
       {hasGameStarted ? (
@@ -35,31 +60,8 @@ const Game = ({ gameData }) => {
           <Round
             player1={currentPlayers[0]}
             player2={currentPlayers[1]}
-            onRoundComplete={result => {
-              setGameResults({
-                wins:
-                  result === "win" ? gameResults.wins + 1 : gameResults.wins,
-                losses:
-                  result === "win"
-                    ? gameResults.losses
-                    : gameResults.losses + 1,
-              });
-            }}
-            nextButton={
-              gameResults.wins < 10 ? (
-                <BlockButton
-                  onClick={() => {
-                    setCurrentPlayers(sampleSize(gameData.players, 2));
-                  }}
-                >
-                  Next round
-                </BlockButton>
-              ) : (
-                <BlockButton onClick={resetGame}>
-                  Game complete! Play again?
-                </BlockButton>
-              )
-            }
+            onRoundComplete={onRoundComplete}
+            nextButton={nextButton}
           />
         </>
       ) : (
@@ -76,7 +78,9 @@ const Game = ({ gameData }) => {
 };
 
 Game.propTypes = {
-  gameData: PropTypes.object.isRequired,
+  gameData: PropTypes.shape({
+    players: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export default Game;
