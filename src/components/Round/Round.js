@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Player from "../Player/Player";
@@ -10,9 +11,10 @@ const Players = styled.div`
 
   & > * {
     flex: 1;
+    margin-left: 10px;
 
-    &:last-child {
-      margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
     }
   }
 `;
@@ -55,6 +57,7 @@ const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
         <Player
           onClick={() => guessPlayer(1)}
           name={`${player1.first_name} ${player1.last_name}`}
+          key={`${player1.first_name} ${player1.last_name}`}
           photo={player1.images.default.url}
           salary={player1.salary}
           fppg={player1.fppg}
@@ -66,6 +69,7 @@ const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
         <Player
           onClick={() => guessPlayer(2)}
           name={`${player2.first_name} ${player2.last_name}`}
+          key={`${player2.first_name} ${player2.last_name}`}
           photo={player2.images.default.url}
           salary={player2.salary}
           fppg={player2.fppg}
@@ -86,6 +90,25 @@ const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
       {selectedPlayer !== null && nextButton}
     </div>
   );
+};
+
+const playerPropTypes = PropTypes.shape({
+  first_name: PropTypes.string.isRequired,
+  last_name: PropTypes.string.isRequired,
+  images: PropTypes.shape({
+    default: PropTypes.shape({ url: PropTypes.string.isRequired }),
+  }).isRequired,
+  salary: PropTypes.number.isRequired,
+  fppg: PropTypes.number.isRequired,
+  injured: PropTypes.bool.isRequired,
+  injury_details: PropTypes.string,
+}).isRequired;
+
+Round.propTypes = {
+  player1: playerPropTypes,
+  player2: playerPropTypes,
+  onRoundComplete: PropTypes.func.isRequired,
+  nextButton: PropTypes.node.isRequired,
 };
 
 export default Round;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const BlockButton = styled.button`
   align-items: center;
@@ -28,5 +29,10 @@ const BlockButton = styled.button`
     }
   }
 `;
+
+BlockButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+};
 
 export default BlockButton;
