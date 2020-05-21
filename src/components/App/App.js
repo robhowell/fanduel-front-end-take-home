@@ -13,7 +13,9 @@ const App = () => {
   }
 
   if (isLoading) {
-    return <PageContainer>Loading...</PageContainer>;
+    return (
+      <PageContainer data-qa="app-loading-message">Loading...</PageContainer>
+    );
   }
 
   return <Game gameData={gameData} />;

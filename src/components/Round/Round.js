@@ -64,6 +64,7 @@ const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
           injury={player1.injured ? player1.injury_details : ""}
           showFppg={selectedPlayer !== null}
           isSelected={selectedPlayer === 1}
+          data-qa="round-player-1"
         />
 
         <Player
@@ -76,15 +77,20 @@ const Round = ({ player1, player2, onRoundComplete, nextButton }) => {
           injury={player2.injured ? player2.injury_details : ""}
           showFppg={selectedPlayer !== null}
           isSelected={selectedPlayer === 2}
+          data-qa="round-player-2"
         />
       </Players>
 
       {selectedPlayer === playerWithHighestFppg && (
-        <WinMessage>You were correct!</WinMessage>
+        <WinMessage data-qa="round-correct-message">
+          You were correct!
+        </WinMessage>
       )}
 
       {selectedPlayer !== null && selectedPlayer !== playerWithHighestFppg && (
-        <LossMessage>Sorry, you were wrong!</LossMessage>
+        <LossMessage data-qa="round-wrong-message">
+          Sorry, you were wrong!
+        </LossMessage>
       )}
 
       {selectedPlayer !== null && nextButton}

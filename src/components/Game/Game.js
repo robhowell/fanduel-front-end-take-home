@@ -44,16 +44,19 @@ const Game = ({ gameData }) => {
         onClick={() => {
           setCurrentPlayers(sampleSize(gameData.players, 2));
         }}
+        data-qa="next-round-button"
       >
         Next round
       </BlockButton>
     ) : (
-      <BlockButton onClick={resetGame}>Game complete! Play again?</BlockButton>
+      <BlockButton onClick={resetGame} data-qa="game-play-again-button">
+        Game complete! Play again?
+      </BlockButton>
     );
 
   return (
     <PageContainer>
-      {hasGameStarted ? (
+      {hasGameStarted && currentPlayers && currentPlayers.length === 2 ? (
         <>
           <Scoreboard wins={gameResults.wins} losses={gameResults.losses} />
 
@@ -69,6 +72,7 @@ const Game = ({ gameData }) => {
           onClick={() => {
             setHasGameStarted(true);
           }}
+          data-qa="game-start-button"
         >
           Start game
         </BlockButton>

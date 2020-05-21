@@ -29,16 +29,21 @@ const ScoreboardLosses = styled(ScoreboardItem)`
   background-color: #eeb4b4;
 `;
 
+const ScoreboardTitle = styled.span`
+  font-weight: bold;
+  text-transform: uppercase;
+`;
+
 const Scoreboard = ({ wins, losses }) => (
   <StyledScoreboard>
-    <ScoreboardWins>
-      <strong>WINS</strong>
-      <span>{wins}</span>
+    <ScoreboardWins data-qa="scoreboard-wins">
+      <ScoreboardTitle data-qa="scoreboard-title">Wins</ScoreboardTitle>
+      <span data-qa="scoreboard-value">{wins}</span>
     </ScoreboardWins>
 
-    <ScoreboardLosses>
-      <strong>LOSSES</strong>
-      <span>{losses}</span>
+    <ScoreboardLosses data-qa="scoreboard-losses">
+      <ScoreboardTitle data-qa="scoreboard-title">Losses</ScoreboardTitle>
+      <span data-qa="scoreboard-value">{losses}</span>
     </ScoreboardLosses>
   </StyledScoreboard>
 );
