@@ -46,11 +46,24 @@ The requirements for this project leave a number of unknowns, so I have used my 
 
 ## Possible improvements
 
-- Game data should be fully validated prior to the start of the same
-- Keep a record of the pairs of shown in a round so that no pair of players is shown twice within a game
+### Security & reliability
+
+- Game data should be fully validated prior to the start of the game
+- In a real world game, the FPPG for each player should be stored on a server and not be exposed to the client side until after the user has guessed. As it is currently written, a user could look at the Network information in a browser such as Chrome and could find the FPPG for each player.
 - Unit test coverage should be improved
 - End to end tests could be added using a tool like Cypress
 - Visual regression tests could be added using a tool such as Applitools or Chromatic
+- The app should be tested on more devices and more browsers
+
+### Features & accessibility
+
+- Keep a record of the pairs of shown in a round so that the same pair of players are never shown twice within a game
+- Show more stats about each player so that the user is better informed to make their guess
 - Improve accessibility by reviewing accessibility of all screens using a tool such as aXe, and test app using a screenreader
+
+### Styling & user experience
+
 - Common styling values for fonts, spacing sizes and colours could be extracted into a Styled Components theme
-- When a game ends (user has won 10 times), it should be made highlighted more clearly in the UI
+- When the user wins or loses a round, it should be made highlighted more clearly in the UI, perhaps by flashing the respective change in the Scoreboard component
+- When a game ends (user has won 10 times), it should be highlighted in the UI
+- Animation could be used, using a libary such as React Transition Group or React Spring, to make key user interface elements such as the player panels fade in and out. This would result in a more polished user experience that you would expect in a game.
